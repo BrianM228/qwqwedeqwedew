@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="/css/s.css">
+    <link rel="stylesheet" href="../css/reg.css">
 </head>
 <body>
     <div class="form-container"> 
@@ -12,13 +12,15 @@
         <form id="registrationForm">
             <input type="email" id="email" placeholder="Email" required>
             <input type="password" id="password" placeholder="Password" required>
-            <input type="text" id="firstName" placeholder="Имя" required>
-            <input type="text" id="lastName" placeholder="Фамилия" required>
+            <input type="text" id="name" placeholder="Имя" required>
             <button type="submit">Зарегистрироваться</button>
-            <p>У вас уже есть аккаунт <a href="./login.html">Войти</a></p>
+            <div class="reg">
+                <p>У вас уже есть аккаунт?</p>  
+                <a href="../js/login.js">Войти</a>
+            </div>
         </form>
  <p id="message" class="message"></p>
     </div>
-    <script src="../js/registration.js"></script>
+    <script src="../js/reg.js"></script>
 </body>
 </html>

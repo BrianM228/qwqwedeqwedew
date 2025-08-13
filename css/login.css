@@ -1,0 +1,108 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #fff;
+    color: #000;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    background-color: #fafafa;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.form-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 32px;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    color: #000;
+}
+
+#loginForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#loginForm input {
+    padding: 14px 16px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    transition: border-color 0.3s ease;
+}
+
+#loginForm input:focus {
+    border-color: #000;
+    outline: none;
+}
+
+#loginForm button {
+    padding: 14px;
+    background-color: #000;
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#loginForm button:hover {
+    background-color: #222;
+    transform: scale(1.02);
+}
+
+#loginForm button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
+
+#message {
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 18px;
+    transition: color 0.3s ease;
+}
+
+#message.error {
+    color: #d00000;
+}
+
+#message.success {
+    color: #008000;
+}
+
+@media (max-width: 480px) {
+    .login-container {
+        padding: 30px 20px;
+    }
+
+    .form-title {
+        font-size: 26px;
+    }
+}

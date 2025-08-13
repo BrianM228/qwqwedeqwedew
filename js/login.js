@@ -1,59 +1,70 @@
-let form = document.getElementById("loginForm")
-let loginMessage = document.getElementById("loginMessage")
+const form = document.getElementById("loginForm");
+const message = document.getElementById("message");
+const submitBtn = form.querySelector("button");
+
+function showMessage(text, type) {
+    message.textContent = text;
+    message.className = type === "error" ? "error" : "success";
+}
+
+function validateEmail(email) {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+}
 
 form.addEventListener("submit", (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
+    const email = form.elements["email"].value.trim().toLowerCase();
+    const password = form.elements["password"].value;
 
-    let email = form.querySelector('input[type="email"]').value.trim().toLowerCase();
-    let password = form.querySelector('input[type="password"]').value;
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Проверка...";
 
+    if (!email || !password) {
+        showMessage("БЫСТРО ЗАПОЛНИ ВСЕ ПОЛЯ, ДУРАЛЕЙ!", "error");
+        resetButton();
+        return;
+    }
 
-if(!email || !password) {
-    return showMessage("Субо заполни все поля", 'red')
-}
+    if (!validateEmail(email)) {
+        showMessage("Введите корректный имейл", "error");
+        resetButton();
+        return;
+    }
 
-if (!validateEmail(email)) {
-    return showMessage("Введите корректный email", 'red')
-}
+    if (password.length < 6) {
+        showMessage("Пароль должен быть минимум 6 символов", "error");
+        resetButton();
+        return;
+    }
 
-if (password.length < 6) {
-    return showMessage("Пароль слишком маленький", 'red')
-}
- 
-let users = JSON.parse(localStorage.getItem("users")) || []
-let user = users.find (
-    (user) => user.email === email && user.password === password
-);
- if (!user) {
-    return showMessage("Неверный пароль или email", 'red')
- }
-  if (user.password != password) {
-    return showMessage("Неверный пароль", 'red')
- }
+    const users = JSON.parse(localStorage.getItem("users")) || [];
+    const user = users.find(
+        (u) => u.email === email && u.password === password
+    );
 
+    if (!user) {
+        showMessage("Неверный пароль или имейл", "error");
+        resetButton();
+        return;
+    }
 
-localStorage.setItem(
-    "currentUser",
-    JSON.stringify({
+    localStorage.setItem("currentUser", JSON.stringify({
         id: user.id,
         firstName: user.firstName,
         lastName: user.lastName,
-        email: user.email,
-    }))
-showMessage("Вход выполнен", 'green')
+        email: user.email
+    }));
 
-setTimeout(() => {
-    window.location.href = "dashboard.html";
-}, 1500)
-})
+    showMessage("Вход выполнен успешно", "success");
 
-function showMessage(text, color) {
-    loginMessage.textContent = text;
-    loginMessage.style.color = color;
-}
+    setTimeout(() => {
+        window.location.href = "dashboard.html";
+    }, 1500);
+});
 
-
-function validateEmail(email) {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+function resetButton() {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Войти";
 }
