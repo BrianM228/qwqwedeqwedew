@@ -9,6 +9,7 @@
 
 body {
   display: flex;
+  font-family: 'Helvetica Neue', 'Playfair Display', serif;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -16,7 +17,6 @@ body {
   padding: 20px;
   margin: 0;
   background-color: #fff;
-  font-family: 'Helvetica Neue', sans-serif;
   color: #000;
   outline: none;
 }

@@ -1,6 +1,7 @@
 const form = document.getElementById("loginForm");
-const message = document.getElementById("message");
+const message = document.getElementById("loginMessage");
 const submitBtn = form.querySelector("button");
+
 
 function showMessage(text, type) {
     message.textContent = text;
