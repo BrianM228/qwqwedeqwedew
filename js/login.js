@@ -1,71 +1,56 @@
-const form = document.getElementById("loginForm");
-const message = document.getElementById("loginMessage");
-const submitBtn = form.querySelector("button");
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('loginForm');
+    const message = document.getElementById('loginMessage');
+    const switchToRegister = document.getElementById('switchToRegister');
 
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
 
-function showMessage(text, type) {
-    message.textContent = text;
-    message.className = type === "error" ? "error" : "success";
-}
+        const email = form.elements["email"].value.trim().toLowerCase();
+        const password = form.elements["password"].value;
 
-function validateEmail(email) {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-}
+        const submitBtn = form.querySelector("button");
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Вход...";
 
-form.addEventListener("submit", (e) => {
-    e.preventDefault();
+        if (!email || !password) {
+            showMessage("Заполните все поля", "error");
+            resetButton();
+            return;
+        }
 
-    const email = form.elements["email"].value.trim().toLowerCase();
-    const password = form.elements["password"].value;
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.email === email && u.password === password);
 
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Проверка...";
+        if (!user) {
+            showMessage("Неверный email или пароль", "error");
+            resetButton();
+            return;
+        }
 
-    if (!email || !password) {
-        showMessage("БЫСТРО ЗАПОЛНИ ВСЕ ПОЛЯ, ДУРАЛЕЙ!", "error");
-        resetButton();
-        return;
+        // Successful login
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('currentUser', JSON.stringify({
+            firstName: user.firstName,
+            email: user.email
+        }));
+
+        showMessage("Вход выполнен! Перенаправление...", "success");
+        
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 1500);
+    });
+
+    function showMessage(text, type) {
+        message.textContent = text;
+        message.className = type;
+        message.style.display = "block";
     }
 
-    if (!validateEmail(email)) {
-        showMessage("Введите корректный имейл", "error");
-        resetButton();
-        return;
+    function resetButton() {
+        const btn = form.querySelector("button");
+        btn.disabled = false;
+        btn.textContent = "Войти";
     }
-
-    if (password.length < 6) {
-        showMessage("Пароль должен быть минимум 6 символов", "error");
-        resetButton();
-        return;
-    }
-
-    const users = JSON.parse(localStorage.getItem("users")) || [];
-    const user = users.find(
-        (u) => u.email === email && u.password === password
-    );
-
-    if (!user) {
-        showMessage("Неверный пароль или имейл", "error");
-        resetButton();
-        return;
-    }
-
-    localStorage.setItem("currentUser", JSON.stringify({
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email
-    }));
-
-    showMessage("Вход выполнен успешно", "success");
-
-    setTimeout(() => {
-        window.location.href = "dashboard.html";
-    }, 1500);
 });
-
-function resetButton() {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Войти";
-}
