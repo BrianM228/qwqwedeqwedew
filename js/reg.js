@@ -3,11 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const message = document.getElementById('message');
     const switchToLogin = document.getElementById('switchToLogin');
 
-    // Switch between registration and login forms
     if (switchToLogin) {
         switchToLogin.addEventListener('click', (e) => {
             e.preventDefault();
-            window.location.href = "login.html"; // Make sure you have a login.html
+            window.location.href = "login.html";
         });
     }
 
@@ -41,13 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
             id: Date.now(),
             firstName,
             email,
-            password // Note: In production, never store plain passwords
+            password
         };
 
         users.push(newUser);
         localStorage.setItem('users', JSON.stringify(users));
-
-        // Auto-login after registration
         localStorage.setItem('isLoggedIn', 'true');
         localStorage.setItem('currentUser', JSON.stringify({
             firstName,

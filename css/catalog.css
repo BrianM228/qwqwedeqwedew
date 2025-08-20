@@ -17,10 +17,8 @@
     border: 1px solid #eee;
     padding: 10px;
     border-radius: 5px;
-    height: 450px;
-    overflow: hidden; /* Чтобы скрыть выходящее за рамки */
+    height: 450px; 
 }
-
 
 .price {
     margin-top: 370px;
