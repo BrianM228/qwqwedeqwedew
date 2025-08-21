@@ -3,11 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('.search-bar input');
     const searchTerm = searchInput.value.toLowerCase().trim();
     const cards = document.querySelectorAll('.card');
-    
+
     cards.forEach(card => {
       const title = card.querySelector('.titles').textContent.toLowerCase();
       const description = card.querySelector('.price').textContent.toLowerCase();
-      
+
       if (title.includes(searchTerm) || description.includes(searchTerm)) {
         card.style.display = 'block';
       } else {
@@ -17,14 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const searchInput = document.querySelector('.search-bar input');
-  
-
   searchInput.addEventListener('input', searchProducts);
-  
   searchInput.addEventListener('keypress', function(e) {
-    if (e.key === 'Enter') {
-      searchProducts();
-    }
+    if (e.key === 'Enter') searchProducts();
   });
 
   const initImageHover = (container = document) => {
@@ -72,28 +67,38 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const favBtns = document.querySelectorAll(".fav-btn");
-  
-  favBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const card = btn.closest(".card");
+  // Работа с избранным:
+  const favButtons = document.querySelectorAll('.fav-btn');
+
+
+
+  favButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.card');
       if (!card) return;
 
-      const title = card.querySelector(".titles")?.textContent || "Untitled";
-      const price = card.querySelector(".price")?.textContent || "N/A";
-      const img = card.querySelector(".primary-img")?.src || "";
+      const productTitle = card.querySelector('.titles').textContent.trim();
+      const productPrice = card.querySelector('.price').textContent.trim();
+      const primaryImg = card.querySelector('.primary-img').src;
 
-      let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+      const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 
-      const exists = favorites.some(item => item.title === title && item.price === price);
-      if (!exists) {
-        favorites.push({ title, price, img });
-        localStorage.setItem("favorites", JSON.stringify(favorites));
-        alert(`${title} added to favorites!`);
+      const isExist = favorites.some(item => item.title === productTitle);
+
+      if (!isExist) {
+        favorites.push({
+          title: productTitle,
+          price: productPrice,
+          image: primaryImg
+        });
+
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        btn.textContent = '★ favorite';
+        btn.disabled = true;
+        alert('Товар добавлен в избранное!');
       } else {
-        alert(`${title} is already in favorites.`);
+        alert('Этот товар уже в избранном.');
       }
     });
   });
-
 });
